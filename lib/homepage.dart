@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _performSearch,
                 child: const Text('Search'),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Colors.deepPurple, // Button text color
+                  foregroundColor: Colors.white, backgroundColor: Color(0xFF0095FF), // Button text color
                 ),
               ),
           ],
