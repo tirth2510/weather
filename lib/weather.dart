@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'homepage.dart'; // Import MyHomePage
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -95,7 +96,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
         backgroundColor: Color(0xFF0B131E),
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+              (route) => false,
+            );
           },
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
         ),

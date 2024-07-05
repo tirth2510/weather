@@ -19,14 +19,14 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   bool _isLoading = false;
-  late String _lastSearchedCity;
 
   @override
   void initState() {
     super.initState();
-    _lastSearchedCity = widget.lastSearchedCity ?? '';
-    _searchController.text = _lastSearchedCity;
-    _searchQuery = _lastSearchedCity;
+    if (widget.lastSearchedCity != null) {
+      _searchController.text = widget.lastSearchedCity!;
+      _searchQuery = widget.lastSearchedCity!;
+    }
   }
 
   void _cancelSearch() {
@@ -42,8 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _isLoading = true;
       });
 
-      final url =
-          'https://api.weatherapi.com/v1/current.json?key=bfb38479a31747bfbb6123311240207&q=$_searchQuery&aqi=no';
+      final url = 'https://api.weatherapi.com/v1/current.json?key=bfb38479a31747bfbb6123311240207&q=$_searchQuery&aqi=no';
       final response = await http.get(Uri.parse(url));
 
       setState(() {
