@@ -56,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
               conditionIconUrl: data['current']['condition']['icon'],
               windKph: data['current']['wind_kph'],
               humidity: data['current']['humidity'],
+              feelslikeC: data['current']['feelslike_c'],
             ),
           ),
         );

@@ -7,6 +7,7 @@ class WeatherScreen extends StatelessWidget {
   final String conditionIconUrl; // Icon URL
   final double windKph;
   final int humidity;
+  final double feelslikeC;
 
   const WeatherScreen({
     super.key,
@@ -16,6 +17,7 @@ class WeatherScreen extends StatelessWidget {
     required this.conditionIconUrl,
     required this.windKph,
     required this.humidity,
+    required this.feelslikeC
   });
 
   @override
@@ -23,7 +25,7 @@ class WeatherScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Air Conditions',
+          'Weather Conditions',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -53,7 +55,7 @@ class WeatherScreen extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                'Chance of rain: 0%',
+                condition,
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -107,12 +109,12 @@ class WeatherScreen extends StatelessWidget {
                     'HUMIDITY',
                     '$humidity%',
                   ),
-                  Expanded(
-                    child: buildDataCard(
-                      'CONDITION',
-                      condition,
-                    ),
+                  
+                  buildDataCard(
+                    'FEELS LIKE',
+                    '${feelslikeC.toStringAsFixed(1)}°C',
                   ),
+                  
                 ],
               ),
             ],
