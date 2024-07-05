@@ -4,25 +4,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'weather.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Weather App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final String? lastSearchedCity;
+
+  const MyHomePage({Key? key, this.lastSearchedCity}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -32,6 +19,15 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
   bool _isLoading = false;
+  late String _lastSearchedCity;
+
+  @override
+  void initState() {
+    super.initState();
+    _lastSearchedCity = widget.lastSearchedCity ?? '';
+    _searchController.text = _lastSearchedCity;
+    _searchQuery = _lastSearchedCity;
+  }
 
   void _cancelSearch() {
     setState(() {
@@ -46,7 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
         _isLoading = true;
       });
 
-      final url = 'https://api.weatherapi.com/v1/current.json?key=bfb38479a31747bfbb6123311240207&q=$_searchQuery&aqi=no';
+      final url =
+          'https://api.weatherapi.com/v1/current.json?key=bfb38479a31747bfbb6123311240207&q=$_searchQuery&aqi=no';
       final response = await http.get(Uri.parse(url));
 
       setState(() {
@@ -55,6 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+
+        // Save the searched city to SharedPreferences
+        _saveLastSearchedCity(_searchQuery);
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -75,6 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       }
     }
+  }
+
+  // Method to save last searched city to SharedPreferences
+  Future<void> _saveLastSearchedCity(String city) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('last_searched_city', city);
   }
 
   @override
