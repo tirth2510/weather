@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class WeatherScreen extends StatelessWidget {
   final String name;
@@ -17,17 +18,19 @@ class WeatherScreen extends StatelessWidget {
     required this.conditionIconUrl,
     required this.windKph,
     required this.humidity,
-    required this.feelslikeC
+    required this.feelslikeC,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text(
           'Weather Conditions',
-          style: TextStyle(
-            color: Colors.white,
+          style: GoogleFonts.kanit(
+            fontSize: 24.0,
+            color: Color(0xFFFFFFFF),
           ),
         ),
         backgroundColor: Color(0xFF0B131E),
@@ -45,6 +48,7 @@ class WeatherScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Display the city name
               Text(
                 name,
                 style: TextStyle(
@@ -54,6 +58,7 @@ class WeatherScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 8),
+              // Display the weather condition
               Text(
                 condition,
                 style: TextStyle(
@@ -61,24 +66,24 @@ class WeatherScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 24),
+              // Display the weather icon
               Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFFFE45E), // Yellow color for sun icon
-                ),
+                width: 200,
+                height: 200,
                 child: Center(
                   child: Image.network(
                     'https:$conditionIconUrl',
-                    fit: BoxFit.cover,
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.error, size: 64, color: Colors.white);
+                      return Icon(Icons.error, size: 128, color: Colors.white);
                     },
                   ),
                 ),
               ),
               SizedBox(height: 16),
+              // Display the temperature
               Text(
                 '${tempC.toInt()}°',
                 style: TextStyle(
@@ -88,6 +93,7 @@ class WeatherScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 32),
+              // Display additional weather data in a row of cards
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -109,12 +115,10 @@ class WeatherScreen extends StatelessWidget {
                     'HUMIDITY',
                     '$humidity%',
                   ),
-                  
                   buildDataCard(
                     'FEELS LIKE',
                     '${feelslikeC.toStringAsFixed(1)}°C',
                   ),
-                  
                 ],
               ),
             ],
@@ -124,10 +128,11 @@ class WeatherScreen extends StatelessWidget {
     );
   }
 
+  // Helper method to build data cards
   Widget buildDataCard(String title, String value) {
     return Container(
-      width: 160, // Adjusted width for consistent size
-      height: 120, // Adjusted height for consistent size
+      width: 160,
+      height: 120,
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -139,7 +144,7 @@ class WeatherScreen extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              fontSize: 14, // Adjusted text size for card title
+              fontSize: 14,
               color: Colors.grey,
             ),
           ),
@@ -147,7 +152,7 @@ class WeatherScreen extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              fontSize: 18, // Adjusted text size for value
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
